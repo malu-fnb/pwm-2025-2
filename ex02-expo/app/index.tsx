@@ -2,88 +2,107 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
   Alert,
-  Button,
   Image,
-  Pressable,
-  ScrollView,
   StyleSheet,
-  Text,
-  TextInput,
+  ScrollView,
   View,
+  Pressable,
+  Linking,
 } from "react-native";
-// import { FlatListExample } from "@/components/FlatListExample";
-import { SectionListExample } from "@/components/SectionListExample";
+import { Text, Button, TextInput } from "react-native-paper";
 
 export default function Index() {
   const router = useRouter();
   const [idade, onChangeIdade] = useState("");
   const [showDetails, setShowDetails] = useState(true);
   const anoNasc = new Date().getFullYear() - parseInt(idade);
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Olá Turma!</Text>
+    <ScrollView
+      style={{ backgroundColor: "beige" }}
+      contentContainerStyle={styles.container}
+    >
+      <Text variant="displaySmall" style={styles.title}>
+        Olá Turma!
+      </Text>
+
       <Image
         style={styles.avatar}
         source={require("@/assets/images/avatar.jpg")}
         resizeMode="cover"
       />
-      <Pressable
-        onPress={() => {
-          setShowDetails(!showDetails);
-        }}
-      >
-        <Text numberOfLines={showDetails ? 0 : 1} style={styles.text}>
+
+      <Pressable onPress={() => setShowDetails(!showDetails)}>
+        <Text
+          variant="bodyLarge"
+          style={styles.text}
+          numberOfLines={showDetails ? 0 : 1}
+        >
           Este é um App de exemplo da disciplina Programação Web e Mobile do
           Curso de Ciência da Computação da Universidade Católica de Pernambuco
           (semestre 2025.2)
         </Text>
       </Pressable>
-      {!isNaN(anoNasc) && <Text>Você nasceu em {anoNasc}</Text>}
+
+      {!isNaN(anoNasc) && (
+        <Text variant="bodyLarge" style={{ marginTop: 10 }}>
+          Você nasceu em {anoNasc}
+        </Text>
+      )}
+
       <TextInput
-        style={styles.input}
-        onChangeText={onChangeIdade}
+        label="Qual a sua idade?"
         value={idade}
-        placeholder="Qual a sua idade?"
+        onChangeText={onChangeIdade}
         keyboardType="numeric"
+        style={styles.input}
       />
+
       <View style={styles.buttonsContainer}>
         <Button
+          mode="contained"
           onPress={() => Alert.alert("Botão OK pressionado")}
-          title="     OK     "
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
+        >
+          OK
+        </Button>
         <Button
+          mode="contained"
           onPress={() => Alert.alert("Botão Cancel pressionado")}
-          title="Cancel"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
+        >
+          Cancel
+        </Button>
       </View>
+
       <Button
-        title="Ir para Lista de Tarefas"
+        mode="contained"
         onPress={() => router.navigate("/taskList")}
-      />
+        style={{ marginTop: 20 }}
+      >
+        Ir para Lista de Tarefas
+      </Button>
+
+      {}
+      <Button
+        icon="github"
+        mode="outlined"
+        onPress={() => Linking.openURL("https://github.com/malu-fnb")}
+        style={{ marginTop: 20 }}
+      >
+        malu-fnb
+      </Button>
+
       <View style={styles.space} />
     </ScrollView>
   );
-}
-
-// Exemplos de Listas
-function App() {
-  // return <FlatListExample />;
-  return <SectionListExample />;
 }
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: "beige",
     padding: 15,
   },
   title: {
-    fontSize: 42,
     fontWeight: "bold",
     marginBottom: 30,
   },
@@ -95,20 +114,20 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     marginTop: 30,
+    textAlign: "center",
   },
   input: {
     height: 45,
-    width: 200,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
+    width: 250,
+    marginVertical: 12,
   },
   space: {
     height: 70,
   },
   buttonsContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     width: 250,
+    marginTop: 10,
   },
 });
